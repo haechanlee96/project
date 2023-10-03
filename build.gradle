@@ -44,7 +44,11 @@ dependencies {
     testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'
 
     // Handlebars
-    implementation 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.2'
+//    implementation 'pl.allegro.tech.boot:handlebars-spring-boot-starter:4.2.0'
+
+    // https://mvnrepository.com/artifact/com.github.jknack/handlebars
+    implementation group: 'com.github.jknack', name: 'handlebars', version: '4.3.0'
+
 }
 
 tasks.named('test') {
