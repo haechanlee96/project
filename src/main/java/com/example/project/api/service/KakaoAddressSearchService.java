@@ -36,7 +36,7 @@ public class KakaoAddressSearchService {
         HttpEntity httpEntity = new HttpEntity(headers);
 
         // kakao api 호출
-        restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoApiResponseDto.class).getBody();
+        return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoApiResponseDto.class).getBody();
 
     }
 }

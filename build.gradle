@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.16'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'groovy'
 }
 
 group = 'com.example'
@@ -26,6 +27,14 @@ repositories {
 }
 
 dependencies {
+
+    //spock
+    testImplementation('org.spockframework:spock-core:2.1-groovy-3.0')
+    testImplementation('org.spockframework:spock-spring:2.1-groovy-3.0')
+
+    // mock
+    testImplementation('net.bytebuddy:byte-buddy:1.12.10')
+
 
     //DB
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
