@@ -2,9 +2,9 @@ package com.example.project.repository
 
 import com.example.project.AbstractIntegrationContainerBaseTest
 import com.example.project.pharmacy.entity.Pharmacy
+import com.example.project.pharmacy.repository.PharmacyRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import spock.lang.Specification
 
 @SpringBootTest
 class PharmacyRepositoryTest extends AbstractIntegrationContainerBaseTest {
