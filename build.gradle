@@ -28,6 +28,10 @@ repositories {
 
 dependencies {
 
+    // testcontainers
+    testImplementation('org.testcontainers:spock:1.17.1')
+    testImplementation('org.testcontainers:mariadb:1.17.1')
+
     //spock
     testImplementation('org.spockframework:spock-core:2.1-groovy-3.0')
     testImplementation('org.spockframework:spock-spring:2.1-groovy-3.0')
