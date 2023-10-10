@@ -30,11 +30,12 @@ public class PharmacyRecommendationService {
             return;
         }
 
+        // 사용자가 입력한 값을 바탕으로 현재 주소 계산 -> 첫번째 가장 관련성 높은 것을 추출 = 주소
         DocumentDto documentDto = kakaoApiResponseDto.getDocumentDtoList().get(0);
 
 //        List<Direction> directionList = directionService.buildDirectionList(documentDto);
 
-        //api -> 카테고리
+        //api -> 카테고리 , 거리 리스트를 뽑는다 => 추천 경로
         List<Direction> directionList = directionService.buildDirectionListByCategoryApi(documentDto);
 
         directionService.saveAll(directionList);

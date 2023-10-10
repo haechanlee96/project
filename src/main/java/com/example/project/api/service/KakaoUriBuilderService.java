@@ -8,7 +8,7 @@ import java.net.URI;
 
 @Slf4j
 @Service
-public class KakaoUriBuilderService {
+public class KakaoUriBuilderService { // api호출을 위한 uri 만드는 곳
 
     // 주소검색 api
     private static final String KAKAO_LOCAL_SEARCH_ADDRESS_URL = "https://dapi.kakao.com/v2/local/search/address.json";
@@ -27,6 +27,8 @@ public class KakaoUriBuilderService {
     }
 
 
+    // 목표한 약국에 맞는 URI 구성 -> 카테고리 요청에 맞는 URI
+    // 고객이 입력한 주소 -> 위도,경도 기반으로 변환 시킨 것 -> 다시 카테고리 기반으로 인자값
     public URI buildUriByCategorySearch(double latitude, double longitude, double radius, String category){
 
         double meterRadius = radius * 1000;
@@ -35,8 +37,8 @@ public class KakaoUriBuilderService {
         uriBuilder.queryParam("category_group_code", category);
         uriBuilder.queryParam("x", longitude);
         uriBuilder.queryParam("y", latitude);
-        uriBuilder.queryParam("radius", meterRadius);
-        uriBuilder.queryParam("sort","distance");
+        uriBuilder.queryParam("radius", meterRadius); // 반경 순
+        uriBuilder.queryParam("sort","distance"); // 거리 순으로 정렬
 
         URI uri = uriBuilder.build().encode().toUri();
 

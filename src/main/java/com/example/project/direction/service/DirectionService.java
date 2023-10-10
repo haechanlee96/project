@@ -33,7 +33,7 @@ public class DirectionService {
 
     // db 저장
     @Transactional
-    public List<Direction> saveAll(List<Direction> directionList){
+    public List<Direction> saveAll(List<Direction> directionList){ // 최대 3개의 리스트를 반환
         if(CollectionUtils.isEmpty(directionList)) return Collections.emptyList();
         return directionRepository.saveAll(directionList);
     }
@@ -41,8 +41,8 @@ public class DirectionService {
     public List<Direction> buildDirectionList(DocumentDto documentDto){ // 공공기관 데이터를 받아와서 비교
         if(Objects.isNull(documentDto)) return Collections.emptyList();
 
-        // 거리계산 알고리즘 이용하여, 고객과 약국 사이의 거리를 계산하고 sort
-        return pharmacySearchService.searchPharmacyDtoList()
+        // 거리계산 알고리즘 이용하여, 고객과 약국 사이의 거리를 계산하고 sort -> Haversine Fomula
+        return pharmacySearchService.searchPharmacyDtoList() // 약국 리스트 조회
                 .stream().map(pharmacyDto ->
                         Direction.builder()
                                 .inputAddress(documentDto.getAddressName())
@@ -70,13 +70,14 @@ public class DirectionService {
 
         return kakaoCategorySearchService
                 .requestPharmacyCategorySearch(inputDocumentDto.getLatitude(), inputDocumentDto.getLongitude(), RADIUS_KM)
-                .getDocumentDtoList()
-                .stream().map(resultDocumentDto ->
+                // kakaoapiresonsedto로 반환된 것을 -> 약국 검색 요청
+                .getDocumentDtoList() // 여러 개의 약국 정보가 리스트로 담겨있다.
+                .stream().map(resultDocumentDto -> //
                         Direction.builder()
-                                .inputAddress(inputDocumentDto.getAddressName())
+                                .inputAddress(inputDocumentDto.getAddressName()) // 사용자의 현재값은 어디서 받냐고??
                                 .inputLatitude(inputDocumentDto.getLatitude())
                                 .inputLongitude(inputDocumentDto.getLongitude())
-                                .targetPharmacyName(resultDocumentDto.getPlaceName())
+                                .targetPharmacyName(resultDocumentDto.getPlaceName()) // result라는 곳에
                                 .targetAddress(resultDocumentDto.getAddressName())
                                 .targetLatitude(resultDocumentDto.getLatitude())
                                 .targetLongitude(resultDocumentDto.getLongitude())
@@ -89,6 +90,7 @@ public class DirectionService {
 
 
     // Haversine formula
+    // 고객의 주소 정보, 약국의 주소 정보 두 위도 경도 사이의 거리 구하기
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         lat1 = Math.toRadians(lat1);
         lon1 = Math.toRadians(lon1);
