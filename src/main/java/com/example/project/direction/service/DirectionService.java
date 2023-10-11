@@ -30,6 +30,7 @@ public class DirectionService {
     private final PharmacySearchService pharmacySearchService;
     private final DirectionRepository directionRepository;
     private final KakaoCategorySearchService kakaoCategorySearchService; // 약국 카테고리
+    private final Base62Service base62Service;
 
     // db 저장
     @Transactional
@@ -37,6 +38,14 @@ public class DirectionService {
         if(CollectionUtils.isEmpty(directionList)) return Collections.emptyList();
         return directionRepository.saveAll(directionList);
     }
+
+    // encoding
+    public Direction findById(String encodeId){
+        Long decodeId = base62Service.decodeDirectionId(encodeId);
+        return directionRepository.findById(decodeId).orElse(null);
+    }
+
+
 
     public List<Direction> buildDirectionList(DocumentDto documentDto){ // 공공기관 데이터를 받아와서 비교
         if(Objects.isNull(documentDto)) return Collections.emptyList();
@@ -74,10 +83,10 @@ public class DirectionService {
                 .getDocumentDtoList() // 여러 개의 약국 정보가 리스트로 담겨있다.
                 .stream().map(resultDocumentDto -> //
                         Direction.builder()
-                                .inputAddress(inputDocumentDto.getAddressName()) // 사용자의 현재값은 어디서 받냐고??
+                                .inputAddress(inputDocumentDto.getAddressName()) // 사용자가 현재 입력한 값
                                 .inputLatitude(inputDocumentDto.getLatitude())
                                 .inputLongitude(inputDocumentDto.getLongitude())
-                                .targetPharmacyName(resultDocumentDto.getPlaceName()) // result라는 곳에
+                                .targetPharmacyName(resultDocumentDto.getPlaceName()) // 사용자가 입력한 값 주변의 약국 정보
                                 .targetAddress(resultDocumentDto.getAddressName())
                                 .targetLatitude(resultDocumentDto.getLatitude())
                                 .targetLongitude(resultDocumentDto.getLongitude())
